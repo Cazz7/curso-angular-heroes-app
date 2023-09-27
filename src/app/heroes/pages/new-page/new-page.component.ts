@@ -107,10 +107,11 @@ export class NewPageComponent implements OnInit{
     .pipe(
       filter( (result: boolean) => result ), // solo deja pasar al siguiente paso si la condicion se cumple
       switchMap(() => this.heroesService.deleteHeroById(this.currentHero.id)) ,
-
+      //tap( wasDeleted => console.log({wasDeleted}) ), // Es opcional, solo para mirar
+      filter( (wasDeleted: boolean) => wasDeleted ),
     )
-    .subscribe(result => {
-
+    .subscribe(() => { // Aqui el resultado no me interesa porque se que en este punto es true
+      this.router.navigate(['/heroes']);
     });
 
     // Esta es una forma de hacerlo pero es fea porque hay un
